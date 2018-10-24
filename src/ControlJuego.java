@@ -37,8 +37,8 @@ public class ControlJuego {
 	public void inicializarPartida(){
 		
 		//TODO: Repartir minas e inicializar puntación. Si hubiese un tablero anterior, lo pongo todo a cero para inicializarlo.
-		
-		
+			generarMinas();
+			
 		
 		//Al final del método hay que guardar el número de minas para las casillas que no son mina:
 		for (int i = 0; i < tablero.length; i++) {
@@ -60,42 +60,23 @@ public class ControlJuego {
 	 **/
 	private int calculoMinasAdjuntas(int i, int j){
 		int numMinas = 0 ;
-		if ((i+(-1)>=0||i+(-1)<10)&&(j+(-1)>=0||j+(-1)<10)) {
-			if (this.tablero[i-1][j-1] == MINA) {
-				numMinas++;
-			}
-		}if ((i+(-1)>=0||i+(-1)<10)&&(j+(0)>=0||j+(0)<10)) {
-			if (this.tablero[i-1][j] == MINA) {
-				numMinas++;
-			}
-		}if ((i+(0)>=0||i+(0)<10)&&(j+(-1)>=0||j+(-1)<10)) {
-			if (this.tablero[i][j-1] == MINA) {
-				numMinas++;
-			}
-		}if ((i+(-1)>=0||i+(-1)<10)&&(j+(+1)>=0||j+(+1)<10)) {
-			if (this.tablero[i-1][j+1] == MINA) {
-				numMinas++;
-			}
-		}if ((i+(+1)>=0||i+(+1)<10)&&(j+(-1)>=0||j+(-1)<10)) {
-			if (this.tablero[i+1][j-1] == MINA) {
-				numMinas++;
-			}
-		}if ((i+(+1)>=0||i+(+1)<10)&&(j+(+1)>=0||j+(+1)<10)) {
-			if (this.tablero[i+1][j+1] == MINA) {
-				numMinas++;
-			}
-		}if ((i+(0)>=0||i+(0)<10)&&(j+(+1)>=0||j+(+1)<10)) {
-			if (this.tablero[i][j+1] == MINA) {
-				numMinas++;
-			}
-		}if ((i+(+1)>=0||i+(+1)<10)&&(j+(0)>=0||j+(0)<10)) {
-			if (this.tablero[i+1][j] == MINA) {
-				numMinas++;
+		int posx;
+		int  posy;
+		for (int k = -1; k < 2; k++) {
+			for (int x = -1; x < 2; x++) {
+				posx = k;
+				posy = x;
+				if (((i+posx)>=0&&i+posx<10)&&((j+posy>=0)&&(j+posy<10))) {
+					if (this.tablero[i+posx][j+posy] == MINA) {
+						numMinas++;
+					}
+				}
 			}
 		}
 		
 		return numMinas;
 	}
+	
 	
 	/**
 	 * MÃ©todo que nos permite 
@@ -140,6 +121,7 @@ public class ControlJuego {
 	 * @return Un entero que representa el nÃºmero de minas alrededor de la celda
 	 */
 	public int getMinasAlrededor(int i, int j) {
+		return tablero[i][j];
 	}
 
 	/**
@@ -147,6 +129,25 @@ public class ControlJuego {
 	 * @return Un entero con la puntuaciÃ³n actual
 	 */
 	public int getPuntuacion() {
+		return puntuacion;
+	}
+	/**
+	 * Metodo en el que generamos el numero de  minas de manera Aleatoria respecto al valor que contenga MINAS_INICIALES
+	 */
+	public void generarMinas() {
+		int contadorMinas = 0;
+		int i,j;
+		
+		do {
+			i = (int)Math.floor(Math.random()*LADO_TABLERO);
+			j = (int)Math.floor(Math.random()*LADO_TABLERO);
+			if (abrirCasilla(i,j)) {
+				tablero[i][j] = MINA;
+				contadorMinas++;
+			}
+			
+		} while (contadorMinas<MINAS_INICIALES);
+		
 	}
 	
 }
