@@ -1,6 +1,8 @@
 import java.util.ArrayList;
 import java.util.Random;
 
+import javax.print.attribute.standard.RequestingUserName;
+
 /**
  * Clase gestora del tablero de juego.
  * Guarda una matriz de enteros representado el tablero.
@@ -96,6 +98,7 @@ public class ControlJuego {
 	 * @return Devuelve verdadero si se han abierto todas las celdas que no son minas.
 	 **/
 	public boolean esFinJuego(){
+		return(puntuacion == ((LADO_TABLERO*LADO_TABLERO)-MINAS_INICIALES) ? true : false);
 	}
 	
 	
