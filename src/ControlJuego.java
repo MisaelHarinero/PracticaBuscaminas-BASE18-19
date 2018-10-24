@@ -35,7 +35,7 @@ public class ControlJuego {
 	 * 			El resto de posiciones que no son minas guardan en el entero cuántas minas hay alrededor de la celda
 	 */
 	public void inicializarPartida(){
-
+		
 		//TODO: Repartir minas e inicializar puntaci�n. Si hubiese un tablero anterior, lo pongo todo a cero para inicializarlo.
 		
 		
@@ -59,7 +59,42 @@ public class ControlJuego {
 	 * @return : El número de minas que hay alrededor de la casilla [i][j]
 	 **/
 	private int calculoMinasAdjuntas(int i, int j){
-
+		int numMinas = 0 ;
+		if ((i+(-1)>=0||i+(-1)<10)&&(j+(-1)>=0||j+(-1)<10)) {
+			if (this.tablero[i-1][j-1] == MINA) {
+				numMinas++;
+			}
+		}if ((i+(-1)>=0||i+(-1)<10)&&(j+(0)>=0||j+(0)<10)) {
+			if (this.tablero[i-1][j] == MINA) {
+				numMinas++;
+			}
+		}if ((i+(0)>=0||i+(0)<10)&&(j+(-1)>=0||j+(-1)<10)) {
+			if (this.tablero[i][j-1] == MINA) {
+				numMinas++;
+			}
+		}if ((i+(-1)>=0||i+(-1)<10)&&(j+(+1)>=0||j+(+1)<10)) {
+			if (this.tablero[i-1][j+1] == MINA) {
+				numMinas++;
+			}
+		}if ((i+(+1)>=0||i+(+1)<10)&&(j+(-1)>=0||j+(-1)<10)) {
+			if (this.tablero[i+1][j-1] == MINA) {
+				numMinas++;
+			}
+		}if ((i+(+1)>=0||i+(+1)<10)&&(j+(+1)>=0||j+(+1)<10)) {
+			if (this.tablero[i+1][j+1] == MINA) {
+				numMinas++;
+			}
+		}if ((i+(0)>=0||i+(0)<10)&&(j+(+1)>=0||j+(+1)<10)) {
+			if (this.tablero[i][j+1] == MINA) {
+				numMinas++;
+			}
+		}if ((i+(+1)>=0||i+(+1)<10)&&(j+(0)>=0||j+(0)<10)) {
+			if (this.tablero[i+1][j] == MINA) {
+				numMinas++;
+			}
+		}
+		
+		return numMinas;
 	}
 	
 	/**
@@ -70,7 +105,7 @@ public class ControlJuego {
 	 * @return : Verdadero si no ha explotado una mina. Falso en caso contrario.
 	 */
 	public boolean abrirCasilla(int i, int j){
-
+		return (this.tablero[i][j]==MINA ? false : true);
 	}
 	
 	
