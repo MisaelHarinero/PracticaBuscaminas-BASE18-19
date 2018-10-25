@@ -34,6 +34,7 @@ public class ActionBoton implements ActionListener {
 			if (this.ventana.getJuego().esFinJuego()) {
 				this.ventana.mostrarFinJuego(false);
 			}
+			this.ventana.juego.depurarTablero();
 
 		} else {
 			this.ventana.mostrarFinJuego(true);
@@ -57,9 +58,9 @@ public class ActionBoton implements ActionListener {
 			this.ventana.mostrarNumMinasAlrededor(i, j);
 			for (int x = -1; x < 2; x++) {
 				for (int y = -1; y < 2; y++) {
-					if ((((i + x) >= 0) && ((i + x) < this.ventana.getJuego().LADO_TABLERO)) && (((j + y) >= 0) && ((j + y) <this.ventana.getJuego().LADO_TABLERO))) {
+					if ((((i + x) >= 0) && ((i + x) < ControlJuego.LADO_TABLERO)) && (((j + y) >= 0) && ((j + y) <ControlJuego.LADO_TABLERO))) {
 						if (this.ventana.getJuego().abrirCasilla((i + x), (j + y))
-								&& (!this.ventana.getJuego().isVisited(i + x, j + y))) {
+								&& (!this.ventana.getJuego().isVisited((i + x), (j + y)))) {
 							abrirCasillasEnExplosion((i + x), (j + y));
 							this.ventana.refrescarPantalla();
 

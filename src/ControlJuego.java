@@ -16,8 +16,8 @@ public class ControlJuego {
 	
 	private final static int MINA = -1;
 	private final static int VISITADO = -2;
-	final int MINAS_INICIALES = 20;
-	final int LADO_TABLERO = 10;
+	 static  int MINAS_INICIALES = 20;
+	 static  int LADO_TABLERO = 10;
 
 	private int [][] tablero;
 	private int puntuacion;
@@ -29,6 +29,7 @@ public class ControlJuego {
 		
 		//Inicializamos una nueva partida
 		inicializarPartida();
+		depurarTablero();
 	}
 	
 	
@@ -38,7 +39,7 @@ public class ControlJuego {
 	 * 			El resto de posiciones que no son minas guardan en el entero cuÃ¡ntas minas hay alrededor de la celda
 	 */
 	public void inicializarPartida(){
-		
+		tablero = new int[LADO_TABLERO][LADO_TABLERO];
 		//TODO: Repartir minas e inicializar puntación. Si hubiese un tablero anterior, lo pongo todo a cero para inicializarlo.
 			generarMinas();
 			this.puntuacion = 0;
@@ -184,6 +185,26 @@ public class ControlJuego {
 		this.puntuacion++;
 	}
 
+
+	public static int getMINAS_INICIALES() {
+		return MINAS_INICIALES;
+	}
+
+
+	public static void setMINAS_INICIALES(int mINAS_INICIALES) {
+		MINAS_INICIALES = mINAS_INICIALES;
+	}
+
+
+	public static int getLADO_TABLERO() {
+		return LADO_TABLERO;
+	}
+
+
+	public static void setLADO_TABLERO(int lADO_TABLERO) {
+		LADO_TABLERO = lADO_TABLERO;
+	}
+	
 
 	
 	

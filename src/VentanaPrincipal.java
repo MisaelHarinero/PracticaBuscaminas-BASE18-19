@@ -5,11 +5,13 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.BorderFactory;
+import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
@@ -36,11 +38,17 @@ public class VentanaPrincipal {
 
 	// LA VENTANA GUARDA UN CONTROL DE JUEGO:
 	ControlJuego juego;
+	// MENU DE DIFICULTAD
+	JPanel panelDificultad;
+	JRadioButton radios[];
+	JButton buttonDificultad;
+	JButton buttonAceptar;
+	ButtonGroup grupo;
 
 	// Constructor, marca el tamaño y el cierre del frame
 	public VentanaPrincipal() {
 		ventana = new JFrame();
-		ventana.setBounds(100, 100, 700, 500);
+		ventana.setBounds(100, 100, 1000, 700);
 		ventana.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		juego = new ControlJuego();
 	}
@@ -53,12 +61,13 @@ public class VentanaPrincipal {
 
 		// Inicializamos componentes
 		panelImagen = new JPanel();
+		panelImagen.setLayout(new GridLayout());
 		panelEmpezar = new JPanel();
 		panelEmpezar.setLayout(new GridLayout(1, 1));
 		panelPuntuacion = new JPanel();
 		panelPuntuacion.setLayout(new GridLayout(1, 1));
 		panelJuego = new JPanel();
-		panelJuego.setLayout(new GridLayout(10, 10));
+		panelJuego.setLayout(new GridLayout(ControlJuego.LADO_TABLERO, ControlJuego.LADO_TABLERO));
 
 		botonEmpezar = new JButton("Go!");
 		pantallaPuntuacion = new JTextField("0");
@@ -107,7 +116,7 @@ public class VentanaPrincipal {
 		ventana.add(panelJuego, settings);
 
 		// Paneles
-		panelesJuego = new JPanel[10][10];
+		panelesJuego = new JPanel[ControlJuego.LADO_TABLERO][ControlJuego.LADO_TABLERO];
 		for (int i = 0; i < panelesJuego.length; i++) {
 			for (int j = 0; j < panelesJuego[i].length; j++) {
 				panelesJuego[i][j] = new JPanel();
@@ -117,7 +126,7 @@ public class VentanaPrincipal {
 		}
 
 		// Botones
-		botonesJuego = new JButton[10][10];
+		botonesJuego = new JButton[ControlJuego.LADO_TABLERO][ControlJuego.LADO_TABLERO];
 		for (int i = 0; i < botonesJuego.length; i++) {
 			for (int j = 0; j < botonesJuego[i].length; j++) {
 				botonesJuego[i][j] = new JButton("-");
@@ -128,6 +137,8 @@ public class VentanaPrincipal {
 		// BotónEmpezar:
 		panelEmpezar.add(botonEmpezar);
 		panelPuntuacion.add(pantallaPuntuacion);
+		// Boton Dificultad
+		generarPanelDeDificultad();
 
 	}
 
@@ -137,13 +148,19 @@ public class VentanaPrincipal {
 	 */
 	public void inicializarListeners() {
 		inicializarListenerBotones();
-		this.botonEmpezar.addActionListener((e)->{
+		listenerDificultad();
+		this.botonEmpezar.addActionListener((e) -> {
 			reiniciarPartida();
 		});
-		
+		this.buttonDificultad.addActionListener((e) -> {
+			JOptionPane.showMessageDialog(null, this.panelDificultad);
+		});
+
 	}
+
 	/**
-	 * Inicializa solo los listener de los botones para aprovechar dicho metodo  al reiniciar partida
+	 * Inicializa solo los listener de los botones para aprovechar dicho metodo al
+	 * reiniciar partida
 	 */
 	public void inicializarListenerBotones() {
 		for (int i = 0; i < this.botonesJuego.length; i++) {
@@ -152,6 +169,7 @@ public class VentanaPrincipal {
 			}
 		}
 	}
+
 	/**
 	 * Pinta en la pantalla el número de minas que hay alrededor de la celda Saca
 	 * el botón que haya en la celda determinada y añade un JLabel centrado y no
@@ -195,7 +213,9 @@ public class VentanaPrincipal {
 			JOptionPane.showMessageDialog(null, "Te exploto una bomba en la cara", "Losser", 0);
 
 		} else {
-			JOptionPane.showMessageDialog(null, "Has Ganado la Partida", "Winner",1);
+			bloquearBotones();
+			refrescarPantalla();
+			JOptionPane.showMessageDialog(null, "Has Ganado la Partida", "Winner", 1);
 
 		}
 		// TODO
@@ -236,8 +256,10 @@ public class VentanaPrincipal {
 		inicializarComponentes();
 		inicializarListeners();
 	}
+
 	/**
-	 * Metodo que se encarga de bloquear los botones en caso de que explote una bomba
+	 * Metodo que se encarga de bloquear los botones en caso de que explote una
+	 * bomba
 	 */
 	public void bloquearBotones() {
 		for (int i = 0; i < this.botonesJuego.length; i++) {
@@ -246,17 +268,18 @@ public class VentanaPrincipal {
 			}
 		}
 	}
+
 	/**
 	 * Metodo que se encarga de reiniciar Partida
 	 */
-	/**
-	 * 
-	 */
+
 	public void reiniciarPartida() {
+		panelJuego.setLayout(new GridLayout(ControlJuego.LADO_TABLERO, ControlJuego.LADO_TABLERO));
 		juego.inicializarPartida();
 		panelJuego.removeAll();
+		panelJuego.setLayout(new GridLayout(ControlJuego.LADO_TABLERO, ControlJuego.LADO_TABLERO));
 		// Paneles
-		panelesJuego = new JPanel[10][10];
+		panelesJuego = new JPanel[ControlJuego.LADO_TABLERO][ControlJuego.LADO_TABLERO];
 		for (int i = 0; i < panelesJuego.length; i++) {
 			for (int j = 0; j < panelesJuego[i].length; j++) {
 				panelesJuego[i][j] = new JPanel();
@@ -266,7 +289,7 @@ public class VentanaPrincipal {
 		}
 
 		// Botones
-		botonesJuego = new JButton[10][10];
+		botonesJuego = new JButton[ControlJuego.LADO_TABLERO][ControlJuego.LADO_TABLERO];
 		for (int i = 0; i < botonesJuego.length; i++) {
 			for (int j = 0; j < botonesJuego[i].length; j++) {
 				botonesJuego[i][j] = new JButton("-");
@@ -276,7 +299,52 @@ public class VentanaPrincipal {
 		this.pantallaPuntuacion.setText(Integer.toString(this.juego.getPuntuacion()));
 		inicializarListenerBotones();
 		refrescarPantalla();
-		
+
+	}
+
+	/**
+	 * Metodo en el que generamos un panel de Dificultad
+	 */
+	public void generarPanelDeDificultad() {
+		String difText[] = { "LOW", "MEDIUM", "HARD" };
+		this.buttonDificultad = new JButton("Dificultad");
+		this.panelImagen.add(buttonDificultad);
+		this.panelDificultad = new JPanel();
+		this.panelDificultad.setLayout(new GridLayout(5, 1));
+		JTextField texto = new JTextField("Seleccione la dificultad");
+		this.panelDificultad.add(texto);
+		this.buttonAceptar = new JButton("Aceptar");
+		texto.setEditable(false);
+		this.grupo = new ButtonGroup();
+		this.radios = new JRadioButton[3];
+		for (int i = 0; i < 3; i++) {
+			this.radios[i] = new JRadioButton(difText[i]);
+			this.grupo.add(this.radios[i]);
+			this.panelDificultad.add(this.radios[i]);
+
+		}
+		this.panelDificultad.add(this.buttonAceptar);
+
+	}
+
+	/**
+	 * A�adimos un listener al boton de Dentro del panel de Dificultad en el que
+	 * vemos que radioButton a seleccionado y generamos el tablero con esa
+	 * dificultad
+	 */
+	public void listenerDificultad() {
+		this.buttonAceptar.addActionListener((e) -> {
+			TypesGame tipos[] = { TypesGame.LOW, TypesGame.MIDIUM, TypesGame.HARD };
+			for (int i = 0; i < radios.length; i++) {
+				if (radios[i].isSelected()) {
+					ControlJuego.setLADO_TABLERO(tipos[i].getLadoTablero());
+					ControlJuego.setMINAS_INICIALES(tipos[i].getNumMinas());
+					reiniciarPartida();
+				}
+			}
+
+		});
+
 	}
 
 }
