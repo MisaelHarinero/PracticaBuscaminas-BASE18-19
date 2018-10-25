@@ -15,6 +15,7 @@ import javax.print.attribute.standard.RequestingUserName;
 public class ControlJuego {
 	
 	private final static int MINA = -1;
+	private final static int VISITADO = -2;
 	final int MINAS_INICIALES = 20;
 	final int LADO_TABLERO = 10;
 
@@ -40,7 +41,7 @@ public class ControlJuego {
 		
 		//TODO: Repartir minas e inicializar puntación. Si hubiese un tablero anterior, lo pongo todo a cero para inicializarlo.
 			generarMinas();
-			
+			this.puntuacion = 0;
 		
 		//Al final del método hay que guardar el número de minas para las casillas que no son mina:
 		for (int i = 0; i < tablero.length; i++) {
@@ -68,7 +69,7 @@ public class ControlJuego {
 			for (int x = -1; x < 2; x++) {
 				posx = k;
 				posy = x;
-				if (((i+posx)>=0&&i+posx<10)&&((j+posy>=0)&&(j+posy<10))) {
+				if (((i+posx)>=0&&i+posx<(LADO_TABLERO))&&((j+posy>=0)&&(j+posy<LADO_TABLERO))) {
 					if (this.tablero[i+posx][j+posy] == MINA) {
 						numMinas++;
 					}
@@ -78,6 +79,7 @@ public class ControlJuego {
 		
 		return numMinas;
 	}
+
 	
 	
 	/**
@@ -152,5 +154,37 @@ public class ControlJuego {
 		} while (contadorMinas<MINAS_INICIALES);
 		
 	}
+
+
+	public int[][] getTablero() {
+		return tablero;
+	}
+
+
+	public void setTablero(int[][] tablero) {
+		this.tablero = tablero;
+	}
+	/**
+	 * @param i posicion x
+	 * @param j posicion y 
+	 * @return boolean true en el caso de que se haya visitado false en el caso de que no
+	 */
+	public boolean isVisited(int i,int j) {
+		return (this.tablero [i][j] == VISITADO ? true: false);
+	}
+	/**
+	 * @param i posicion x 
+	 * @param j posicion y
+	 * Nos permite indicar que dicha casilla ha sido visitada asignandole el valor
+	 */
+	public void visitarCasilla(int i,int j) {
+		this.tablero[i][j] = VISITADO;
+	}
+	public void sumarPunto() {
+		this.puntuacion++;
+	}
+
+
+	
 	
 }
