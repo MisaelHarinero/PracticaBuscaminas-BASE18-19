@@ -4,6 +4,8 @@ import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Iterator;
+
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
@@ -168,6 +170,7 @@ public class VentanaPrincipal {
 				this.botonesJuego[i][j].addActionListener(new ActionBoton(i, j, this));
 			}
 		}
+		listenerBanderas();
 	}
 
 	/**
@@ -185,7 +188,8 @@ public class VentanaPrincipal {
 	 */
 	public void mostrarNumMinasAlrededor(int i, int j) {
 		int cantidad = this.juego.getTablero()[i][j];
-		if (this.panelesJuego[i][j].getComponent(0).getClass().equals(JButton.class)) {
+		if (this.panelesJuego[i][j].getComponent(0).getClass().equals(JButton.class)
+				&& !((JButton) this.panelesJuego[i][j].getComponent(0)).getText().equals("Flag")) {
 			this.panelesJuego[i][j].remove(this.botonesJuego[i][j]);
 			this.juego.visitarCasilla(i, j);
 			JTextField text = new JTextField(Integer.toString(cantidad));
@@ -267,6 +271,7 @@ public class VentanaPrincipal {
 				this.botonesJuego[i][j].setEnabled(false);
 			}
 		}
+		mostrarBombas();
 	}
 
 	/**
@@ -345,6 +350,61 @@ public class VentanaPrincipal {
 
 		});
 
+	}
+
+	/**
+	 * Metodo que al explotar una bomba nos enseña las bombas que habia en el
+	 * tablero
+	 */
+	public void mostrarBombas() {
+		for (int i = 0; i < this.botonesJuego.length; i++) {
+			for (int j = 0; j < this.botonesJuego[i].length; j++) {
+				if (!this.juego.abrirCasilla(i, j)) {
+					this.panelesJuego[i][j].removeAll();
+					JTextField textAux = new JTextField("X");
+					textAux.setEditable(false);
+					textAux.setBackground(Color.getHSBColor(50, 360, 100));
+					textAux.setHorizontalAlignment(JTextField.CENTER);
+					this.panelesJuego[i][j].add(textAux);
+				}
+			}
+		}
+		refrescarPantalla();
+
+	}
+
+	/**
+	 * Le ponemos un listener a los paneles que si se clica con el click derecho del
+	 * raton nos ponga una bandera
+	 */
+	public void listenerBanderas() {
+		for (int i = 0; i < this.botonesJuego.length; i++) {
+			for (int j = 0; j < this.botonesJuego[i].length; j++) {
+				this.botonesJuego[i][j].addMouseListener(new ActionFlag(i, j, this));
+			}
+		}
+
+	}
+
+	/**
+	 * @param i
+	 *            :int posicion x
+	 * 
+	 * @param j
+	 *            :int posicion y No pone una bandera en la casilla o nos la quita y
+	 *            nos vuelve a poner el boton que estaba anteriormente
+	 */
+	public void generarBandera(int i, int j) {
+		if (!((JButton) this.panelesJuego[i][j].getComponent(0)).getText().equals("Flag")) {
+			JButton botonBandera = new JButton("Flag");
+			botonBandera.addMouseListener(new ActionFlag(i, j, this));
+			this.panelesJuego[i][j].removeAll();
+			this.panelesJuego[i][j].add(botonBandera);
+		} else {
+			this.panelesJuego[i][j].removeAll();
+			this.panelesJuego[i][j].add(this.botonesJuego[i][j]);
+		}
+		refrescarPantalla();
 	}
 
 }
