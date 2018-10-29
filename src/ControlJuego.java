@@ -6,9 +6,10 @@ import javax.print.attribute.standard.RequestingUserName;
 /**
  * Clase gestora del tablero de juego.
  * Guarda una matriz de enteros representado el tablero.
- * Si hay una mina en una posición guarda el número -1
- * Si no hay una mina, se guarda cuántas minas hay alrededor.
- * Almacena la puntuación de la partida
+ * Si hay una mina en una posición guarda el numero {@value #MINA}
+ * Si la casilla ya se ha abierto guarda el numero {@value #VISITADO}
+ * Si no hay una mina, se guarda cuantas minas hay alrededor.
+ * Almacena la puntuacion de la partida
  * @author misaelHarinero
  *
  */
@@ -33,10 +34,10 @@ public class ControlJuego {
 	}
 	
 	
-	/**Método para generar un nuevo tablero de partida:
+	/**Metodo para generar un nuevo tablero de partida:
 	 * @pre: La estructura tablero debe existir. 
 	 * @post: Al final el tablero se habrá inicializado con tantas minas como marque la variable MINAS_INICIALES. 
-	 * 			El resto de posiciones que no son minas guardan en el entero cuántas minas hay alrededor de la celda
+	 * 			El resto de posiciones que no son minas guardan en el entero cuantas minas hay alrededor de la celda
 	 */
 	public void inicializarPartida(){
 		tablero = new int[LADO_TABLERO][LADO_TABLERO];
@@ -54,7 +55,7 @@ public class ControlJuego {
 		}
 	}
 	
-	/**Cálculo de las minas adjuntas: 
+	/**Calculo de las minas adjuntas: 
 	 * Para calcular el número de minas tenemos que tener en cuenta que no nos salimos nunca del tablero.
 	 * Por lo tanto, como mucho la i y la j valdrán LADO_TABLERO-1.
 	 * Por lo tanto, como poco la i y la j valdrán 0.
@@ -84,7 +85,7 @@ public class ControlJuego {
 	
 	
 	/**
-	 * Método que nos permite 
+	 * Metodo que nos permite 
 	 * @pre : La casilla nunca debe haber sido abierta antes, no es controlado por el ControlJuego. Por lo tanto siempre sumaremos puntos
 	 * @param i: posición verticalmente de la casilla a abrir
 	 * @param j: posición horizontalmente de la casilla a abrir
@@ -97,7 +98,7 @@ public class ControlJuego {
 	
 	
 	/**
-	 * Método que checkea si se ha terminado el juego porque se han abierto todas las casillas.
+	 * Metodo que checkea si se ha terminado el juego porque se han abierto todas las casillas.
 	 * @return Devuelve verdadero si se han abierto todas las celdas que no son minas.
 	 **/
 	public boolean esFinJuego(){
@@ -106,7 +107,7 @@ public class ControlJuego {
 	
 	
 	/**
-	 * Método que pinta por pantalla toda la información del tablero, se utiliza para depurar
+	 * Metodo que pinta por pantalla toda la información del tablero, se utiliza para depurar
 	 */
 	public void depurarTablero(){
 		System.out.println("---------TABLERO--------------");
@@ -120,7 +121,7 @@ public class ControlJuego {
 	}
 
 	/**
-	 * Método que se utiliza para obtener las minas que hay alrededor de una celda
+	 * Metodo que se utiliza para obtener las minas que hay alrededor de una celda
 	 * @pre : El tablero tiene que estar ya inicializado, por lo tanto no hace falta calcularlo, símplemente consultarlo
 	 * @param i : posición vertical de la celda.
 	 * @param j : posición horizontal de la cela.
@@ -131,7 +132,7 @@ public class ControlJuego {
 	}
 
 	/**
-	 * Método que devuelve la puntuación actual
+	 * Metodo que devuelve la puntuación actual
 	 * @return Un entero con la puntuación actual
 	 */
 	public int getPuntuacion() {
@@ -181,6 +182,9 @@ public class ControlJuego {
 	public void visitarCasilla(int i,int j) {
 		this.tablero[i][j] = VISITADO;
 	}
+	/**
+	 * Metodo en el que suma un punto a la Puntuacion
+	 */
 	public void sumarPunto() {
 		this.puntuacion++;
 	}

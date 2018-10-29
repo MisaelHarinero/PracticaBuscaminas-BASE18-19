@@ -2,7 +2,7 @@ import java.awt.event.MouseAdapter;
 
 /**
  * @author misaelHarinero
- * Metodo que nos permite poner una Bandera en las casillas
+ * Clase que nos permite poner una Bandera en las casillas
  *
  */
 public class ActionFlag  extends MouseAdapter{
@@ -18,6 +18,11 @@ public class ActionFlag  extends MouseAdapter{
 	}
 
 
+	/**
+	 * Metodo que al hacer click derecho nos llama al metodo de la interfaz generar Bandera
+	 * @see java.awt.event.MouseAdapter#mouseClicked(java.awt.event.MouseEvent)
+	 * @see VentanaPrincipal#generarBandera(int, int)
+	 */
 	@Override
 	public void mouseClicked(java.awt.event.MouseEvent e) {
 		if (e.getButton() == java.awt.event.MouseEvent.BUTTON3) {
