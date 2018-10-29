@@ -17,6 +17,28 @@ import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
+/**
+ * <p>
+ * La clase lo que se encarga es de generar y controlar la parte de la Interfaz
+ * de usuario del programa. Tiene los metodos necesarios para poder generar los
+ * componentes y trabajar con ellos, adeamas de generar los listener a los
+ * eventos.
+ * </p>
+ * 
+ * @author misaelHarinero 
+ * {@link #inicializar()} 
+ * {@code 
+ * 
+ 		ventana.setVisible(true);
+		inicializarComponentes();
+		inicializarListeners();
+		
+ * }
+ * @version 1.0
+ * @since 1.0
+ * @see ControlJuego
+ * 
+ */
 public class VentanaPrincipal {
 
 	// La ventana principal, en este caso, guarda todos los componentes:
@@ -56,6 +78,11 @@ public class VentanaPrincipal {
 	}
 
 	// Inicializa todos los componentes del frame
+	/**
+	 * <p>
+	 * Metodo en el que inicializamos los diferentes Componentes de nuestra interfaz
+	 * </p>
+	 */
 	public void inicializarComponentes() {
 
 		// Definimos el layout:
@@ -145,7 +172,7 @@ public class VentanaPrincipal {
 	}
 
 	/**
-	 * Método que inicializa todos los lísteners que necesita inicialmente el
+	 * Metodo que inicializa todos los lísteners que necesita inicialmente el
 	 * programa
 	 */
 	public void inicializarListeners() {
@@ -174,12 +201,11 @@ public class VentanaPrincipal {
 	}
 
 	/**
-	 * Pinta en la pantalla el número de minas que hay alrededor de la celda Saca
-	 * el botón que haya en la celda determinada y añade un JLabel centrado y no
-	 * editable con el número de minas alrededor. Se pinta el color del texto
-	 * según la siguiente correspondecia (consultar la variable
-	 * correspondeciaColor): - 0 : negro - 1 : cyan - 2 : verde - 3 : naranja - 4 ó
-	 * más : rojo
+	 * Pinta en la pantalla el numero de minas que hay alrededor de la celda Saca el
+	 * boton que haya en la celda determinada y a�ade un JLabel centrado y no
+	 * editable con el numero de minas alrededor. Se pinta el color del texto segun
+	 * la siguiente correspondecia (consultar la variable correspondeciaColor): - 0
+	 * : negro - 1 : cyan - 2 : verde - 3 : naranja - 4 y mas : rojo
 	 * 
 	 * @param i:
 	 *            posición vertical de la celda.
@@ -226,7 +252,7 @@ public class VentanaPrincipal {
 	}
 
 	/**
-	 * Método que muestra la puntuación por pantalla.
+	 * Metodo que muestra la puntuación por pantalla.
 	 */
 	public void actualizarPuntuacion() {
 		this.pantallaPuntuacion.setText(Integer.toString(this.juego.getPuntuacion()));
@@ -234,7 +260,7 @@ public class VentanaPrincipal {
 	}
 
 	/**
-	 * Método para refrescar la pantalla
+	 * Metodo para refrescar la pantalla
 	 */
 	public void refrescarPantalla() {
 		ventana.revalidate();
@@ -242,7 +268,7 @@ public class VentanaPrincipal {
 	}
 
 	/**
-	 * Método que devuelve el control del juego de una ventana
+	 * Metodo que devuelve el control del juego de una ventana
 	 * 
 	 * @return un ControlJuego con el control del juego de la ventana
 	 */
@@ -251,7 +277,7 @@ public class VentanaPrincipal {
 	}
 
 	/**
-	 * Método para inicializar el programa
+	 * Metodo para inicializar el programa
 	 */
 	public void inicializar() {
 		// IMPORTANTE, PRIMERO HACEMOS LA VENTANA VISIBLE Y LUEGO INICIALIZAMOS LOS
@@ -387,12 +413,17 @@ public class VentanaPrincipal {
 	}
 
 	/**
+	 * <p>
+	 * No pone una bandera en la casilla o nos la quita y nos vuelve a poner el
+	 * boton que estaba anteriormente
+	 * </p>
+	 * 
 	 * @param i
 	 *            :int posicion x
 	 * 
 	 * @param j
-	 *            :int posicion y No pone una bandera en la casilla o nos la quita y
-	 *            nos vuelve a poner el boton que estaba anteriormente
+	 *            :int posicion y
+	 * 
 	 */
 	public void generarBandera(int i, int j) {
 		if (!((JButton) this.panelesJuego[i][j].getComponent(0)).getText().equals("Flag")) {
